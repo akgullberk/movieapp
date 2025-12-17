@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:movieapp/common/helper/message/display_message.dart';
 import 'package:movieapp/common/helper/navigation/app_navigation.dart';
 import 'package:movieapp/core/configs/theme/app_colors.dart';
-import 'package:movieapp/features/auth/data/models/signin_req_params.dart';
-import 'package:movieapp/features/auth/domain/usecases/signin.dart';
-import 'package:movieapp/features/auth/presentation/pages/signup.dart';
+import 'package:movieapp/features/auth/data/models/signup_req_params.dart';
+import 'package:movieapp/features/auth/domain/usecases/signup.dart';
+import 'package:movieapp/features/auth/presentation/pages/signin.dart';
 import 'package:movieapp/features/home/presentation/pages/home.dart';
 import 'package:movieapp/service_locator.dart';
 import 'package:reactive_button/reactive_button.dart';
 
-class SigninPage extends StatelessWidget {
-  SigninPage({super.key});
+class SignupPage extends StatelessWidget {
+  SignupPage({super.key});
 
   final TextEditingController _emailCon = TextEditingController();
   final TextEditingController _passwordCon = TextEditingController();
@@ -25,24 +25,24 @@ class SigninPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _signinText(),
+            _signupText(),
             const SizedBox(height: 30),
             _emailField(),
             const SizedBox(height: 20),
             _passwordField(),
             const SizedBox(height: 60),
-            _signinButton(context),
+            _signupButton(context),
             const SizedBox(height: 20),
-            _signupText(context),
+            _signinText(context),
           ],
         ),
       ),
-    );
+    ); 
   }
 
-  Widget _signinText() {
+  Widget _signupText() {
     return Text(
-      'Sign In',
+      'Sign Up',
       style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
     );
   }
@@ -61,13 +61,14 @@ class SigninPage extends StatelessWidget {
     );
   }
 
-  Widget _signinButton(BuildContext context) {
+
+  Widget _signupButton(BuildContext context) {
     return ReactiveButton(
-      title: "Sign In",
+      title: "Sign Up",
       activeColor: AppColors.primary,
       onPressed: () async {
-        return await sl<SigninUseCase>().call(
-          params: SigninReqParams(
+        return await sl<SignupUseCase>().call(
+          params: SignupReqParams(
             email: _emailCon.text,
             password: _passwordCon.text,
           ),
@@ -75,6 +76,7 @@ class SigninPage extends StatelessWidget {
       },
       onSuccess: () {
         AppNavigator.pushAndRemove(context, HomePage());
+
       },
       onFailure: (error) {
         print('Signin error: $error');
@@ -83,18 +85,18 @@ class SigninPage extends StatelessWidget {
     );
   }
 
-  Widget _signupText(BuildContext context) {
+  Widget _signinText(BuildContext context) {
     return Text.rich(
       TextSpan(
         children: [
-          TextSpan(text: "Don't you have account?"),
+          TextSpan(text: "Do you have account?"),
           TextSpan(
-            text: " Sign Up",
+            text: " Sign In",
             style: TextStyle(color: Colors.blue),
             recognizer:
                 TapGestureRecognizer()
                   ..onTap = () {
-                    AppNavigator.push(context, SignupPage());
+                    AppNavigator.push(context,  SigninPage());
                   },
           ),
         ],
