@@ -1,5 +1,5 @@
 class ApiUrl {
-  static const baseURL = 'https://moviebackend-11na.onrender.com/';
+  static const baseURL = 'http://10.0.2.2:5000/';
   static const apiV = 'api/v1/';
 
   static const signup = '${apiV}auth/signup';
